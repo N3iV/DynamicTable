@@ -19,7 +19,29 @@ const TableUI = ({ addCol, columns, setColumns, rows, setRows, addRow }) => {
       return prevColumns.map((col, id) => (idx === id ? val : col));
     });
   };
-
+  const handleRowChange = (val, idx, colIdx) => {
+    setRows((prevRows) =>
+      prevRows.map((row, id) =>
+        idx === id
+          ? row.map((col, colId) => (colIdx === colId ? val : col))
+          : row
+      )
+    );
+  };
+  const handleDelete = (idx) => {
+    console.log(idx);
+    if (columns.length > 1) {
+      setColumns((prev) => prev.filter((_, id) => idx !== id));
+    }
+    if (rows.length > 0) {
+      setRows((prevRows) =>
+        prevRows.map((row) => row.filter((_, id) => idx !== id))
+      );
+    }
+  };
+  const handleDeleteRow = (idx) => {
+    setRows((prevRow) => prevRow.filter((_, id) => idx !== id));
+  };
   return (
     <TableContainer mt="20">
       <Table variant="unstyled" colorScheme="linkedin">
@@ -33,7 +55,11 @@ const TableUI = ({ addCol, columns, setColumns, rows, setRows, addRow }) => {
             <Th></Th>
             {columns?.map((col, idx) => (
               <Th key={idx * 123}>
-                <Button w="full" colorScheme="red">
+                <Button
+                  w="full"
+                  colorScheme="red"
+                  onClick={() => handleDelete(idx)}
+                >
                   Delete
                 </Button>
               </Th>
@@ -72,9 +98,23 @@ const TableUI = ({ addCol, columns, setColumns, rows, setRows, addRow }) => {
                 <Td>{idx + 1}</Td>
                 {row.map((rowCol, rowColIdx) => (
                   <Td key={rowColIdx * 127}>
-                    <Input />
+                    <Input
+                      value={rowCol}
+                      onChange={(e) =>
+                        handleRowChange(e.target.value, idx, rowColIdx)
+                      }
+                    />
                   </Td>
                 ))}
+                <Td>
+                  <Button
+                    variant="outline"
+                    colorScheme="red"
+                    onClick={() => handleDeleteRow(idx)}
+                  >
+                    Delete
+                  </Button>
+                </Td>
               </Tr>
             ))
           )}

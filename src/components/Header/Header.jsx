@@ -10,8 +10,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React from "react";
+import SaveToExcel from "../SaveToExcel";
+import SaveToJson from "../SaveToJSON";
 
-const Header = () => {
+const Header = ({ addCol, columns, setColumns, rows, setRows, addRow }) => {
   return (
     <Flex
       mt="12"
@@ -26,20 +28,20 @@ const Header = () => {
       <Box m="2" w="auto" h="10">
         <Flex alignItems="center">
           <Stack direction="row" spacing={4} align="center">
-            <Text>Columns: 2</Text>
+            <Text>Columns: {columns.length}</Text>
 
-            <Text>Rows: 1</Text>
+            <Text>Rows: {rows.length}</Text>
 
-            <Button variant="outline">Add column</Button>
-
-            <Button variant="outline">Add Row</Button>
-
-            <Button colorScheme="green" variant="solid">
-              Save to JSON
+            <Button variant="outline" onClick={addCol}>
+              Add column
             </Button>
-            <Button colorScheme="green" variant="solid">
-              Save to Excel
+
+            <Button variant="outline" onClick={addRow}>
+              Add Row
             </Button>
+
+            <SaveToJson rows={rows} columns={columns} />
+            <SaveToExcel rows={rows} columns={columns} />
           </Stack>
         </Flex>
       </Box>

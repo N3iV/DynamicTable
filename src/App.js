@@ -7,7 +7,7 @@ function App() {
   const [columns, setColumns] = useState(["Col 1"]);
   const [rows, setRows] = useState([]);
   const addRow = () => {
-    setRows((prvRow) => [...prvRow, columns.map((col) => ``)]);
+    setRows((prvRow) => [...prvRow, columns.map((_) => ``)]);
   };
   const addCol = () => {
     if (columns.length < 5) {
@@ -22,7 +22,14 @@ function App() {
   };
   return (
     <Container maxW="container.xl">
-      <Header addCol={addCol} />
+      <Header
+        addCol={addCol}
+        columns={columns}
+        setColumns={setColumns}
+        addRow={addRow}
+        setRows={setRows}
+        rows={rows}
+      />
       <TableUI
         addCol={addCol}
         columns={columns}
